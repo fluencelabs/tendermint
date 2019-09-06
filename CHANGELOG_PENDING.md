@@ -20,5 +20,6 @@ program](https://hackerone.com/tendermint).
 ### IMPROVEMENTS:
 
 - [rpc] \#2010 Add NewHTTPWithClient and NewJSONRPCClientWithHTTPClient (note these and NewHTTP, NewJSONRPCClient functions panic if remote is invalid) (@gracenoah)
+- [abci] Add full Vote to VoteInfo in BeginBlock (@folex from fluence labs)
 
 ### BUG FIXES:
