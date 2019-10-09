@@ -1,3 +1,10 @@
+FROM golang:alpine as build
+COPY . /tendermint
+WORKDIR /tendermint
+RUN apk add make
+RUN make tools
+RUN make build
+
 FROM alpine:3.9
 LABEL maintainer="hello@tendermint.com"
 
@@ -27,13 +34,11 @@ VOLUME [ $TMHOME ]
 
 WORKDIR $TMHOME
 
+COPY --from=build /tendermint/build/tendermint /usr/bin/tendermint
+
 # p2p and rpc port
 EXPOSE 26656 26657
 
+ENTRYPOINT ["/usr/bin/tendermint"]
 CMD ["node", "--moniker=`hostname`"]
 STOPSIGNAL SIGTERM
-
-ARG BINARY=tendermint
-COPY $BINARY /usr/bin/tendermint
-
-ENTRYPOINT ["/usr/bin/tendermint"]
